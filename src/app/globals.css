@@ -1,26 +1,159 @@
 @import "tailwindcss";
+@import "@clerk/ui/themes/shadcn.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #e5e2dc;
+  --foreground: #1c1917;
+  --surface: #faf9f7;
+  --surface-muted: #f5f5f4;
+  --border: rgba(28, 25, 23, 0.12);
+  --border-strong: rgba(28, 25, 23, 0.2);
+  --muted: #78716c;
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-soft: rgba(217, 119, 6, 0.12);
+  --danger: #e11d48;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(217, 119, 6, 0.2);
+}
+
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 20px 40px -15px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 24px 48px -28px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(16px);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 24, 27, 0.14) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(24, 24, 27, 0.12);
+  border-radius: 999px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(24, 24, 27, 0.04) 0%,
+    rgba(24, 24, 27, 0.08) 50%,
+    rgba(24, 24, 27, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-soft {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.workspace-desk {
+  background-color: #faf9f7;
+  background-image: radial-gradient(circle, #d8d4cc 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* BlockNote — match Atelier sharp, warm editor surface */
+.note-block-editor {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.bn-container {
+  --bn-border-radius: 0px;
+  --bn-colors-editor-text: #292524;
+  --bn-colors-editor-background: transparent;
+  --bn-colors-menu-background: #ffffff;
+  --bn-colors-menu-text: #292524;
+  --bn-colors-hovered-background: #f5f5f4;
+  --bn-colors-selected-background: #e7e5e4;
+  --bn-colors-border: #d6d3d1;
+  --bn-colors-side-menu: #a8a29e;
+  --bn-font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.bn-editor {
+  padding-inline: 0;
+  min-height: 42vh;
+}
+
+.bn-block-group .bn-block-outer:not([data-prev-depth-changed])::before {
+  border-radius: 0;
+}
+
+.bn-inline-content code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9em;
+  background: #f5f5f4;
+  border: 1px solid #e7e5e4;
+  padding: 0.1em 0.35em;
+  border-radius: 0;
 }

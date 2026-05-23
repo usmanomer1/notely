@@ -11,12 +11,13 @@ import {
   Plus,
 } from "@phosphor-icons/react";
 import { useEffect, useMemo, useState } from "react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex-api";
 import type { Id } from "../../../convex/_generated/dataModel";
 import { cn, formatRelativeTime, notePreviewText } from "@/lib/utils";
 import { NoteListSkeleton } from "@/components/ui/skeleton";
 import { NoteEditor } from "./note-editor";
 import { AiAssistantPanel } from "./ai-assistant-panel";
+import { ConvexConnectionBanner } from "./convex-connection-banner";
 
 export function WorkspaceShell({ onOpenSettings }: { onOpenSettings?: () => void }) {
   const ensureDefaultNotebook = useMutation(api.notes.ensureDefaultNotebook);
@@ -94,6 +95,7 @@ export function WorkspaceShell({ onOpenSettings }: { onOpenSettings?: () => void
 
   return (
     <div className="flex h-[100dvh] flex-col bg-[#e5e2dc] text-stone-900">
+      <ConvexConnectionBanner />
       <header className="flex h-12 shrink-0 items-center gap-3 border-b border-stone-800 bg-[#1c1917] px-3 text-white md:gap-4 md:px-4">
         <div className="flex shrink-0 items-center gap-2.5">
           <div className="flex h-7 w-7 items-center justify-center bg-amber-600">

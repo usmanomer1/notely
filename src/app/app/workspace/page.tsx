@@ -4,7 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useConvexAuth, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "@/convex-api";
 import { WorkspaceShell } from "@/components/workspace/workspace-shell";
 import { WorkspaceSetup } from "@/components/workspace/workspace-setup";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -60,7 +60,11 @@ export default function WorkspacePage() {
     }
   }, [clerkLoaded, isSignedIn, router]);
 
-  if (!clerkLoaded || !isSignedIn || convexLoading) {
+  if (!clerkLoaded || !isSignedIn) {
+    return <WorkspaceLoading />;
+  }
+
+  if (convexLoading) {
     return <WorkspaceLoading />;
   }
 
@@ -68,17 +72,14 @@ export default function WorkspacePage() {
     return <ConvexAuthSetupRequired />;
   }
 
-  if (setupStatus === undefined) {
-    return <WorkspaceLoading />;
-  }
-
-  if (!setupStatus.isReady) {
-    return <WorkspaceSetup mode="gate" />;
-  }
+  const needsSetup = setupStatus?.isReady === false;
 
   return (
     <>
-      <WorkspaceShell onOpenSettings={() => setSettingsOpen(true)} />
+      {needsSetup ? <WorkspaceSetup mode="gate" /> : null}
+      {!needsSetup ? (
+        <WorkspaceShell onOpenSettings={() => setSettingsOpen(true)} />
+      ) : null}
       {settingsOpen ? (
         <WorkspaceSetup
           mode="settings"

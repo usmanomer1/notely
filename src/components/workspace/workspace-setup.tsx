@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "convex/react";
 import { Key, WarningCircle } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/convex-api";
 
 type WorkspaceSetupProps = {
   mode?: "gate" | "settings";

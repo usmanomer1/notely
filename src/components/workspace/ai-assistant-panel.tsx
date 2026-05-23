@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import type { Doc } from "../../../convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import { ChatMarkdown } from "./chat-markdown";
 
 const quickPrompts = [
   "Research and outline this topic",
@@ -200,9 +201,13 @@ function ChatMessage({
             <span className="text-[10px] text-amber-700">live</span>
           ) : null}
         </div>
-        <div className="whitespace-pre-wrap text-sm leading-6 text-stone-700">
-          {visibleText || "..."}
-        </div>
+        {isUser ? (
+          <p className="whitespace-pre-wrap text-sm leading-6 text-stone-700">
+            {visibleText || "..."}
+          </p>
+        ) : (
+          <ChatMarkdown content={visibleText || "..."} className="text-sm leading-6 text-stone-700" />
+        )}
       </div>
     </div>
   );

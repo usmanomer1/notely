@@ -45,11 +45,18 @@ export function NoteBlockEditor({
 
   useEffect(() => {
     skipChangeRef.current = true;
-    const blocks = editor.tryParseMarkdownToBlocks(markdown || "");
-    editor.replaceBlocks(editor.document, blocks);
-    lastMarkdownRef.current = markdown;
-    skipChangeRef.current = false;
-    setReady(true);
+    try {
+      const blocks = editor.tryParseMarkdownToBlocks(markdown || "");
+      editor.replaceBlocks(editor.document, blocks);
+      lastMarkdownRef.current = markdown;
+    } catch (error) {
+      console.error("Failed to parse note markdown into blocks:", error);
+      editor.replaceBlocks(editor.document, [{ type: "paragraph" }]);
+      lastMarkdownRef.current = markdown;
+    } finally {
+      skipChangeRef.current = false;
+      setReady(true);
+    }
     // Load document when switching notes (editor instance is recreated per noteId).
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ignore markdown while typing
   }, [editor, noteId]);
